@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سوق الحرفيين - خدمات صيانة منزلية</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Cairo', sans-serif;
+      }
+      .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+      }
+      .hide-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+      }
+    </style>
+</head>
+<body class="bg-slate-50 text-gray-800">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center text-indigo-600 font-bold text-2xl">
+                        <svg class="w-8 h-8 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                        حرفي.كوم
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4 space-x-reverse">
+                    <button class="text-gray-500 hover:text-indigo-600 font-medium px-3 py-2">دخول</button>
+                    <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">تسجيل مهني</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="bg-indigo-600 text-white py-12 px-4 text-center relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+        <div class="relative z-10 max-w-2xl mx-auto">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">اعثر على أفضل الحرفيين في مدينتك</h1>
+            <p class="text-indigo-100 mb-8">خدمات سباكة، كهرباء، نجارة والمزيد بضغطة زر واحدة</p>
+            
+            <!-- Search Bar -->
+            <div class="bg-white p-2 rounded-lg shadow-lg flex max-w-lg mx-auto">
+                <input type="text" id="searchInput" placeholder="ابحث عن خدمة أو اسم..." class="flex-1 px-4 py-2 text-gray-800 focus:outline-none rounded-r-lg">
+                <button onclick="filterProfessionals()" class="bg-indigo-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition">
+                    بحث
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Category Filters -->
+        <div class="flex overflow-x-auto gap-4 pb-4 mb-8 hide-scrollbar" id="categoryFilters">
+            <button onclick="setCategory('all')" class="category-btn active bg-indigo-600 text-white px-6 py-2 rounded-full whitespace-nowrap shadow-sm transition-all hover:scale-105">
+                الكل
+            </button>
+            <button onclick="setCategory('سباك')" class="category-btn bg-white text-gray-600 px-6 py-2 rounded-full whitespace-nowrap shadow-sm hover:bg-gray-50 transition-all hover:scale-105">
+                🚿 سباك
+            </button>
+            <button onclick="setCategory('كهربائي')" class="category-btn bg-white text-gray-600 px-6 py-2 rounded-full whitespace-nowrap shadow-sm hover:bg-gray-50 transition-all hover:scale-105">
+                ⚡ كهربائي
+            </button>
+            <button onclick="setCategory('نجار')" class="category-btn bg-white text-gray-600 px-6 py-2 rounded-full whitespace-nowrap shadow-sm hover:bg-gray-50 transition-all hover:scale-105">
+                🪑 نجار
+            </button>
+            <button onclick="setCategory('تكييف')" class="category-btn bg-white text-gray-600 px-6 py-2 rounded-full whitespace-nowrap shadow-sm hover:bg-gray-50 transition-all hover:scale-105">
+                ❄️ تكييف
+            </button>
+        </div>
+
+        <!-- Professionals Grid -->
+        <div id="professionalsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Cards will be injected here via JS -->
+        </div>
+
+        <!-- Empty State (Hidden by default) -->
+        <div id="emptyState" class="hidden text-center py-12">
+            <div class="text-6xl mb-4">🔍</div>
+            <h3 class="text-xl font-bold text-gray-600">لا توجد نتائج مطابقة</h3>
+            <p class="text-gray-500">حاول تغيير فلاتر البحث أو الكلمات المفتاحية</p>
+        </div>
+    </main>
+
+    <!-- Profile/Booking Modal -->
+    <div id="modalBackdrop" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl transform transition-all scale-95 opacity-0" id="modalContent">
+            <!-- Modal Content Injected Here -->
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 left-5 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-3">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        <span id="toastMessage">تمت العملية بنجاح</span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
